@@ -186,6 +186,7 @@
   .proj-card li{margin-bottom:7px;}
 
   /* REPOS */
+  .repo-intro{color:var(--text-dim);font-size:.92rem;max-width:640px;margin:-28px 0 26px;}
   .filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
   .fbtn{font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;transition:.2s;}
   .fbtn:hover{color:var(--text);}
@@ -491,68 +492,59 @@
   <!-- REPOS -->
   <section id="repos">
     <div class="wrap">
-      <div class="section-tag">05 · Open Source</div>
+      <div class="section-tag">05 · Engineering Portfolio</div>
       <h2 class="section-title reveal">GitHub <span>Portfolio</span></h2>
+      <p class="repo-intro reveal">All repositories below are private — each card is a case study covering the tech stack and highlights. Reach out via the buttons in Contact to discuss the code directly.</p>
       <div class="filter-bar reveal">
         <button class="fbtn active" data-filter="all">All (7)</button>
-        <button class="fbtn" data-filter="public">Public</button>
-        <button class="fbtn" data-filter="private">Private</button>
         <button class="fbtn" data-filter="java">Java</button>
         <button class="fbtn" data-filter="python">Python</button>
       </div>
       <div class="repo-grid" id="repoGrid">
 
-        <div class="repo-card reveal" data-tags="public java">
-          <div class="repo-top"><h3>sdet-automation-utilities-java</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+        <div class="repo-card is-private reveal" data-tags="java">
+          <div class="repo-top"><h3>sdet-automation-utilities-java</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
           <p class="repo-desc">Reusable SDET utility library — the plumbing every automation suite needs across Web, Mobile, REST, DB, ETL &amp; Perf. Pure JDK, zero runtime/test dependencies.</p>
-          <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">93 tests</span><span class="m ci">● CI Green</span></div>
-          <div class="repo-foot">
-            <a href="https://github.com/VarunDevSinha/sdet-automation-utilities-java" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
-          </div>
+          <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">93 tests</span><span class="m">Case study</span></div>
+          <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
         </div>
 
-        <div class="repo-card reveal" data-tags="public python">
-          <div class="repo-top"><h3>sdet-automation-utilities-python</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+        <div class="repo-card is-private reveal" data-tags="python">
+          <div class="repo-top"><h3>sdet-automation-utilities-python</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
           <p class="repo-desc">Python companion utility library mirroring the Java edition — config, validation, waits, chaining, reporting, web/mobile/db/etl/api/perf helpers.</p>
-          <div class="repo-meta"><span class="m">Python 3.9+</span><span class="m">75 tests</span><span class="m ci">● CI Green</span></div>
-          <div class="repo-foot">
-            <a href="https://github.com/VarunDevSinha/sdet-automation-utilities-python" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
-          </div>
+          <div class="repo-meta"><span class="m">Python 3.9+</span><span class="m">75 tests</span><span class="m">Case study</span></div>
+          <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
         </div>
 
-        <div class="repo-card reveal" data-tags="public java">
-          <div class="repo-top"><h3>sdet-ci-engine-java</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+        <div class="repo-card is-private reveal" data-tags="java">
+          <div class="repo-top"><h3>sdet-ci-engine-java</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
           <p class="repo-desc">A mini-Jenkins CI/CD pipeline engine built from scratch — pipeline-as-code, stage engine, live logs, build history, dashboard, cron + webhook triggers.</p>
-          <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">54 tests</span><span class="m ci">● CI Green</span></div>
-          <div class="repo-foot">
-            <a href="https://github.com/VarunDevSinha/sdet-ci-engine-java" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
-          </div>
+          <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">54 tests</span><span class="m">Case study</span></div>
+          <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
         </div>
 
-        <div class="repo-card reveal" data-tags="public python">
-          <div class="repo-top"><h3>sdet-ci-engine-python</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+        <div class="repo-card is-private reveal" data-tags="python">
+          <div class="repo-top"><h3>sdet-ci-engine-python</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
           <p class="repo-desc">Python implementation of the same CI-engine spec as its Java sibling — one pipeline.yml, same build history &amp; dashboard, two runtimes.</p>
-          <div class="repo-meta"><span class="m">Python 3.9+</span><span class="m">49 tests</span><span class="m ci">● CI Green</span></div>
-          <div class="repo-foot">
-            <a href="https://github.com/VarunDevSinha/sdet-ci-engine-python" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
-          </div>
+          <div class="repo-meta"><span class="m">Python 3.9+</span><span class="m">49 tests</span><span class="m">Case study</span></div>
+          <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
         </div>
 
-        <div class="repo-card is-private reveal" data-tags="private java">
+        <div class="repo-card is-private reveal" data-tags="java">
           <div class="repo-top"><h3>ai-leveraged-qa-toolkit</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
           <p class="repo-desc">AI-Leveraged QA Toolkit — encapsulates the Claude/Gemini-assisted testing workflows behind Varun's AI-driven automation approach. Java 17, zero runtime deps.</p>
           <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">Case study</span></div>
           <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
         </div>
 
-        <div class="repo-card is-private reveal" data-tags="private java">
+        <div class="repo-card is-private reveal" data-tags="java">
           <div class="repo-top"><h3>java-fullstack-automation-framework</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
           <p class="repo-desc">Config-driven, full-stack Java automation framework spanning Web, Mobile, REST, DB, ETL and Performance domains in one architecture.</p>
           <div class="repo-meta"><span class="m">Java</span><span class="m">6 domains</span><span class="m">Case study</span></div>
           <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
         </div>
 
-        <div class="repo-card is-private reveal" data-tags="private python">
+        <div class="repo-card is-private reveal" data-tags="python">
           <div class="repo-top"><h3>python-fullstack-automation-framework</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
           <p class="repo-desc">Python companion framework covering the same six automation domains — the Java→Python migration mirrored as a standalone showcase.</p>
           <div class="repo-meta"><span class="m">Python</span><span class="m">6 domains</span><span class="m">Case study</span></div>
