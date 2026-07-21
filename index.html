@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Varun Dev Sinha — Full Stack SDET</title>
+<meta name="description" content="Varun Dev Sinha — Full Stack SDET | Test Automation (Java & Python) | CI/CD | AI-Leveraged QA Engineering">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0e17'/%3E%3Ctext x='50' y='68' font-size='55' font-family='monospace' fill='%232dd4bf' text-anchor='middle'%3E%3C/%3E%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e17;
+    --bg-alt:#0d1220;
+    --surface:#121829;
+    --surface-2:#161d33;
+    --border:#232b42;
+    --text:#e6ebf5;
+    --text-dim:#8b95ad;
+    --text-faint:#5c667f;
+    --accent:#2dd4bf;
+    --accent-2:#5eead4;
+    --amber:#fbbf24;
+    --violet:#a78bfa;
+    --pink:#f472b6;
+    --radius:14px;
+    --maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  body.lock{overflow:hidden;}
+  ::selection{background:var(--accent);color:#04140f;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:10px;border:2px solid var(--bg);}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  img,svg{display:block;}
+
+  /* background grid + glow */
+  .bg-fx{position:fixed;inset:0;z-index:-2;background:
+      radial-gradient(circle at 15% 10%, rgba(45,212,191,0.10), transparent 40%),
+      radial-gradient(circle at 85% 25%, rgba(167,139,250,0.09), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(244,114,182,0.06), transparent 45%),
+      var(--bg);
+  }
+  .bg-grid{position:fixed;inset:0;z-index:-1;
+    background-image:linear-gradient(rgba(45,212,191,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45,212,191,0.045) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  /* NAV */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;
+    backdrop-filter:blur(14px);background:rgba(10,14,23,0.72);
+    border-bottom:1px solid transparent;transition:border-color .3s ease, background .3s ease;}
+  header.scrolled{border-bottom-color:var(--border);background:rgba(10,14,23,0.92);}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.05rem;letter-spacing:.3px;}
+  .logo .brk{color:var(--accent);}
+  .navlinks{display:flex;gap:2px;list-style:none;align-items:center;}
+  .navlinks a{padding:9px 15px;border-radius:8px;font-size:.9rem;color:var(--text-dim);font-weight:500;transition:.2s;position:relative;}
+  .navlinks a:hover{color:var(--text);background:var(--surface);}
+  .navlinks a.active{color:var(--accent);}
+  .navcta{display:flex;gap:10px;align-items:center;}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;z-index:200;}
+  .burger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s;}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:10px;font-weight:600;font-size:.92rem;cursor:pointer;border:1px solid transparent;transition:.22s ease;white-space:nowrap;}
+  .btn svg{width:17px;height:17px;flex-shrink:0;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#14b8a6);color:#052420;box-shadow:0 4px 20px -6px rgba(45,212,191,0.5);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 26px -6px rgba(45,212,191,0.65);}
+  .btn-ghost{background:var(--surface);border-color:var(--border);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+  .btn-sm{padding:9px 16px;font-size:.82rem;}
+  .btn-wa{background:linear-gradient(135deg,#25d366,#1fa855);color:#04180c;}
+  .btn-wa:hover{transform:translateY(-2px);box-shadow:0 8px 24px -6px rgba(37,211,102,0.5);}
+  .btn-mail{background:linear-gradient(135deg,#ea4335,#c5221f);color:#fff;}
+  .btn-mail:hover{transform:translateY(-2px);box-shadow:0 8px 24px -6px rgba(234,67,53,0.45);}
+
+  /* SECTION shell */
+  section{padding:118px 0 40px;position:relative;}
+  .section-tag{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+  .section-tag::before{content:'';width:22px;height:1px;background:var(--accent);}
+  h2.section-title{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:800;margin-bottom:44px;letter-spacing:-.5px;}
+  h2.section-title span{color:var(--text-dim);font-weight:600;}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;padding-top:90px;position:relative;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center;}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 14px;border:1px solid var(--border);border-radius:30px;background:var(--surface);font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent-2);margin-bottom:22px;}
+  .dot-live{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.55);}70%{box-shadow:0 0 0 9px rgba(52,211,153,0);}100%{box-shadow:0 0 0 0 rgba(52,211,153,0);}}
+  .hero h1{font-size:clamp(2.4rem,5.4vw,4rem);font-weight:800;letter-spacing:-1.5px;line-height:1.05;margin-bottom:16px;}
+  .hero h1 .hl{background:linear-gradient(135deg,var(--accent),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .type-line{font-family:'JetBrains Mono',monospace;font-size:clamp(1.05rem,2vw,1.35rem);color:var(--text-dim);margin-bottom:22px;height:1.6em;display:flex;align-items:center;}
+  .type-line .cursor{display:inline-block;width:2px;height:1.1em;background:var(--accent);margin-left:3px;animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .hero p.lead{color:var(--text-dim);font-size:1.03rem;max-width:560px;margin-bottom:32px;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:44px;}
+  .stat-row{display:grid;grid-template-columns:repeat(4,auto);gap:34px;}
+  .stat b{display:block;font-family:'JetBrains Mono',monospace;font-size:1.7rem;font-weight:700;color:var(--text);}
+  .stat span{font-size:.78rem;color:var(--text-faint);text-transform:uppercase;letter-spacing:.6px;}
+
+  /* terminal card */
+  .terminal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);}
+  .term-head{display:flex;align-items:center;gap:7px;padding:12px 16px;background:var(--surface-2);border-bottom:1px solid var(--border);}
+  .term-head span{width:11px;height:11px;border-radius:50%;}
+  .term-head span:nth-child(1){background:#ff5f57;}
+  .term-head span:nth-child(2){background:#febc2e;}
+  .term-head span:nth-child(3){background:#28c840;}
+  .term-head small{margin-left:auto;color:var(--text-faint);font-family:'JetBrains Mono',monospace;font-size:.72rem;}
+  .term-body{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:.84rem;color:var(--text-dim);}
+  .term-body .ln{margin-bottom:9px;}
+  .term-body .k{color:var(--violet);}
+  .term-body .s{color:var(--accent-2);}
+  .term-body .c{color:var(--text-faint);}
+  .term-body .p{color:var(--amber);}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+  .about-grid p{color:var(--text-dim);margin-bottom:16px;font-size:1rem;}
+  .about-grid p b{color:var(--text);}
+  .fact-list{display:flex;flex-direction:column;gap:16px;}
+  .fact{display:flex;gap:14px;padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface);}
+  .fact .ico{width:38px;height:38px;border-radius:9px;background:rgba(45,212,191,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .fact .ico svg{width:19px;height:19px;color:var(--accent);}
+  .fact b{display:block;font-size:.92rem;}
+  .fact span{color:var(--text-faint);font-size:.82rem;}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;}
+  .skill-card{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius);padding:22px;transition:.25s;}
+  .skill-card:hover{border-color:var(--accent);transform:translateY(-4px);}
+  .skill-card h4{font-size:.95rem;margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+  .skill-card h4 .sw{width:8px;height:8px;border-radius:2px;background:var(--accent);}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill{font-family:'JetBrains Mono',monospace;font-size:.76rem;padding:6px 11px;border-radius:7px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-dim);transition:.2s;}
+  .pill:hover{color:var(--accent);border-color:var(--accent);}
+
+  /* EXPERIENCE timeline */
+  .timeline{position:relative;padding-left:34px;}
+  .timeline::before{content:'';position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent),var(--border));}
+  .tl-item{position:relative;padding-bottom:42px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);}
+  .tl-item.current .tl-dot{background:var(--accent);box-shadow:0 0 0 4px rgba(45,212,191,.18);}
+  .tl-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;}
+  .tl-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin-bottom:6px;}
+  .tl-top h3{font-size:1.08rem;}
+  .tl-top .role-badge{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent);border:1px solid var(--accent);padding:3px 9px;border-radius:20px;white-space:nowrap;height:fit-content;}
+  .tl-org{color:var(--text-dim);font-size:.88rem;margin-bottom:14px;font-weight:600;}
+  .tl-org .place{color:var(--text-faint);font-weight:400;}
+  .tl-card ul{padding-left:18px;color:var(--text-dim);font-size:.88rem;}
+  .tl-card li{margin-bottom:7px;}
+
+  /* PROJECTS */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:20px;}
+  .proj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:.25s;}
+  .proj-card:hover{transform:translateY(-5px);border-color:var(--violet);box-shadow:0 20px 40px -20px rgba(167,139,250,.35);}
+  .proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px;}
+  .proj-top h3{font-size:1.05rem;}
+  .tag-domain{font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:4px 9px;border-radius:6px;white-space:nowrap;}
+  .tag-domain.air{background:rgba(94,234,212,.12);color:var(--accent-2);}
+  .tag-domain.bfsi{background:rgba(251,191,36,.12);color:var(--amber);}
+  .proj-dur{color:var(--text-faint);font-size:.78rem;margin-bottom:12px;font-family:'JetBrains Mono',monospace;}
+  .proj-card ul{padding-left:18px;color:var(--text-dim);font-size:.87rem;}
+  .proj-card li{margin-bottom:7px;}
+
+  /* REPOS */
+  .filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
+  .fbtn{font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;transition:.2s;}
+  .fbtn:hover{color:var(--text);}
+  .fbtn.active{background:var(--accent);color:#052420;border-color:var(--accent);font-weight:700;}
+  .repo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;}
+  .repo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;transition:.3s;}
+  .repo-card:hover{border-color:var(--accent);transform:translateY(-4px);}
+  .repo-card.is-private{background:repeating-linear-gradient(135deg,var(--surface),var(--surface) 12px,var(--surface-2) 12px,var(--surface-2) 13px);}
+  .repo-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;}
+  .repo-top h3{font-family:'JetBrains Mono',monospace;font-size:.96rem;word-break:break-word;}
+  .badge{font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:4px 9px;border-radius:6px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;}
+  .badge.pub{background:rgba(45,212,191,.12);color:var(--accent);}
+  .badge.priv{background:rgba(244,114,182,.12);color:var(--pink);}
+  .badge svg{width:11px;height:11px;}
+  .repo-desc{color:var(--text-dim);font-size:.87rem;margin-bottom:16px;flex:1;}
+  .repo-meta{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}
+  .repo-meta .m{font-size:.72rem;font-family:'JetBrains Mono',monospace;color:var(--text-faint);background:var(--surface-2);padding:4px 9px;border-radius:6px;border:1px solid var(--border);}
+  .repo-meta .m.ci{color:#34d399;}
+  .repo-foot{display:flex;gap:10px;margin-top:auto;}
+  .lock-note{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text-faint);font-style:italic;padding:10px 0 0;border-top:1px dashed var(--border);margin-top:2px;}
+  .lock-note svg{width:14px;height:14px;flex-shrink:0;color:var(--pink);}
+
+  /* EDUCATION */
+  .edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;}
+  .edu-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;}
+  .edu-card b{display:block;font-size:.98rem;margin-bottom:5px;}
+  .edu-card span{color:var(--text-dim);font-size:.85rem;display:block;}
+  .edu-card .yr{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:.78rem;margin-top:8px;display:block;}
+
+  /* CONTACT */
+  .contact-wrap{background:linear-gradient(160deg,var(--surface),var(--bg-alt));border:1px solid var(--border);border-radius:20px;padding:52px 44px;text-align:center;position:relative;overflow:hidden;}
+  .contact-wrap::before{content:'';position:absolute;top:-60%;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(circle,rgba(45,212,191,.14),transparent 70%);pointer-events:none;}
+  .contact-wrap h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:12px;}
+  .contact-wrap p{color:var(--text-dim);max-width:520px;margin:0 auto 30px;}
+  .contact-actions{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-bottom:26px;}
+  .contact-hint{font-size:.82rem;color:var(--text-faint);max-width:460px;margin:0 auto 30px;}
+  .social-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .social-row a{width:42px;height:42px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:.2s;}
+  .social-row a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-3px);}
+  .social-row svg{width:19px;height:19px;}
+
+  footer{padding:34px 0 90px;text-align:center;color:var(--text-faint);font-size:.82rem;}
+  footer a{color:var(--accent-2);}
+
+  .toplink{position:fixed;bottom:26px;right:26px;width:46px;height:46px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;z-index:90;}
+  .toplink.show{opacity:1;pointer-events:auto;}
+  .toplink:hover{border-color:var(--accent);color:var(--accent);}
+  .toplink svg{width:18px;height:18px;}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .stat-row{grid-template-columns:repeat(2,1fr);gap:22px;}
+  }
+  @media(max-width:760px){
+    .navlinks{position:fixed;top:0;right:0;height:100vh;width:min(78vw,320px);background:var(--bg-alt);border-left:1px solid var(--border);flex-direction:column;justify-content:center;align-items:stretch;padding:0 30px;transform:translateX(100%);transition:transform .35s ease;gap:6px;}
+    .navlinks.open{transform:translateX(0);}
+    .navlinks a{font-size:1.05rem;padding:14px 10px;}
+    .burger{display:flex;}
+    .navcta .btn-ghost{display:none;}
+    section{padding:100px 0 20px;}
+  }
+  @media(max-width:520px){
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .contact-wrap{padding:36px 22px;}
+  }
+</style>
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="bg-grid"></div>
+
+<header id="siteHeader">
+  <nav class="wrap">
+    <a href="#home" class="logo"><span class="brk">&lt;</span>Varun<span class="brk">/&gt;</span></a>
+    <ul class="navlinks" id="navLinks">
+      <li><a href="#home" data-nav>Home</a></li>
+      <li><a href="#about" data-nav>About</a></li>
+      <li><a href="#skills" data-nav>Skills</a></li>
+      <li><a href="#experience" data-nav>Experience</a></li>
+      <li><a href="#projects" data-nav>Projects</a></li>
+      <li><a href="#repos" data-nav>GitHub</a></li>
+      <li><a href="#contact" data-nav>Contact</a></li>
+    </ul>
+    <div class="navcta">
+      <a href="#contact" class="btn btn-ghost btn-sm">Let's Connect</a>
+      <button class="burger" id="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot-live"></span> Open to product &amp; startup opportunities</div>
+        <h1>Varun Dev Sinha<br><span class="hl">Full Stack SDET</span></h1>
+        <div class="type-line"><span id="typeTarget"></span><span class="cursor"></span></div>
+        <p class="lead">5+ years engineering end-to-end test automation across Web, Mobile, REST APIs, ETL &amp; Databases — built with Java &amp; Python, wired into CI/CD, and accelerated with AI (Claude &amp; Gemini).</p>
+        <div class="hero-actions">
+          <a href="#" id="heroWaBtn" target="_blank" rel="noopener" class="btn btn-wa">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5c1.5.8 3.3 1.3 5.2 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.4 1 1-3.3-.2-.4C3.5 14.5 3 13.3 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+            WhatsApp Me
+          </a>
+          <a href="#" id="heroMailBtn" target="_blank" rel="noopener" class="btn btn-mail">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Email Me
+          </a>
+          <a href="https://github.com/VarunDevSinha" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.61-3.37-1.21-3.37-1.21-.46-1.16-1.11-1.47-1.11-1.47-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.25-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            View GitHub
+          </a>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><b data-count="5" data-suffix="+">0</b><span>Years Experience</span></div>
+          <div class="stat"><b data-count="7">0</b><span>Portfolio Repos</span></div>
+          <div class="stat"><b data-count="2">0</b><span>Domains (Airlines/BFSI)</span></div>
+          <div class="stat"><b data-count="270" data-suffix="+">0</b><span>Automated Tests Shipped</span></div>
+        </div>
+      </div>
+
+      <div class="terminal reveal">
+        <div class="term-head"><span></span><span></span><span></span><small>varun@sdet:~$</small></div>
+        <div class="term-body">
+          <div class="ln"><span class="k">const</span> engineer = {</div>
+          <div class="ln">&nbsp;&nbsp;name: <span class="s">"Varun Dev Sinha"</span>,</div>
+          <div class="ln">&nbsp;&nbsp;role: <span class="s">"Full Stack SDET"</span>,</div>
+          <div class="ln">&nbsp;&nbsp;experience: <span class="p">5</span>, <span class="c">// years+</span></div>
+          <div class="ln">&nbsp;&nbsp;stack: [<span class="s">"Java"</span>, <span class="s">"Python"</span>, <span class="s">"SQL"</span>],</div>
+          <div class="ln">&nbsp;&nbsp;automates: [<span class="s">"Web"</span>, <span class="s">"Mobile"</span>, <span class="s">"API"</span>, <span class="s">"ETL"</span>],</div>
+          <div class="ln">&nbsp;&nbsp;ai_leveraged: <span class="p">true</span>, <span class="c">// Claude + Gemini</span></div>
+          <div class="ln">&nbsp;&nbsp;cicd: <span class="p">true</span>,</div>
+          <div class="ln">&nbsp;&nbsp;currentlyAt: <span class="s">"ValueLabs Solutions LLP"</span>,</div>
+          <div class="ln">&nbsp;&nbsp;lookingFor: <span class="s">"product / startup"</span></div>
+          <div class="ln">};</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-tag">01 · About</div>
+      <h2 class="section-title reveal">Professional <span>Summary</span></h2>
+      <div class="about-grid">
+        <div class="reveal">
+          <p>Full Stack SDET with <b>5+ years</b> of experience across manual and automation testing, spanning <b>Web, Mobile, RESTful API, ETL, Database, and Performance testing</b>. Skilled in building end-to-end automation frameworks using <b>Java and Python</b>, integrated with CI/CD pipelines for continuous quality delivery.</p>
+          <p>Experienced in leveraging advanced AI tools (<b>Claude, Google Gemini</b>) to accelerate automation development, enhance QA analysis, and reduce defect counts across production and lower environments.</p>
+          <p>Proven record of leading Agile/Scrum QA activities and driving successful production releases across <b>BFSI and Airlines</b> domain products. Seeking to bring full-stack QA engineering and AI-driven automation expertise to a <b>product-based or startup</b> environment.</p>
+        </div>
+        <div class="fact-list reveal">
+          <div class="fact">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div><b>Current Role</b><span>Senior Software Engineer (QA) — ValueLabs Solutions LLP</span></div>
+          </div>
+          <div class="fact">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div><b>Education</b><span>BBA — Birla Institute of Technology (BIT), Mesra, Ranchi</span></div>
+          </div>
+          <div class="fact">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657 13.414 20.9a2 2 0 0 1-2.828 0l-4.243-4.243a8 8 0 1 1 11.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
+            <div><b>Location</b><span>Remote, India</span></div>
+          </div>
+          <div class="fact">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+            <div><b>Personal Brand</b><span>AI-Leveraged QA — using Claude &amp; Gemini to build and test faster</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-tag">02 · Skills</div>
+      <h2 class="section-title reveal">Technical <span>Skill Set</span></h2>
+      <div class="skills-grid">
+        <div class="skill-card reveal"><h4><span class="sw"></span>Languages</h4><div class="pill-row"><span class="pill">Java</span><span class="pill">Python</span><span class="pill">SQL</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>UI Automation</h4><div class="pill-row"><span class="pill">Selenium WebDriver</span><span class="pill">Appium (Android/iOS)</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>Framework Styles</h4><div class="pill-row"><span class="pill">Hybrid / Keyword-Driven</span><span class="pill">Page Object Model</span><span class="pill">Data-Driven</span><span class="pill">TestNG</span><span class="pill">JUnit</span><span class="pill">PyTest</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>BDD &amp; TDD</h4><div class="pill-row"><span class="pill">Cucumber (Gherkin)</span><span class="pill">TDD Practices</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>API Testing</h4><div class="pill-row"><span class="pill">RestAssured</span><span class="pill">Postman</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>ETL &amp; DB Testing</h4><div class="pill-row"><span class="pill">SQL Scripting</span><span class="pill">Source→Target Validation</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>Performance Testing</h4><div class="pill-row"><span class="pill">Load / Perf Exposure</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>CI/CD &amp; DevOps</h4><div class="pill-row"><span class="pill">CI/CD Pipeline Integration</span><span class="pill">Cloud CI/CD</span><span class="pill">Git</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>AI-Leveraged QA</h4><div class="pill-row"><span class="pill">Claude</span><span class="pill">Google Gemini</span></div></div>
+        <div class="skill-card reveal"><h4><span class="sw"></span>Test Management</h4><div class="pill-row"><span class="pill">Jira Cloud</span><span class="pill">Zephyr</span><span class="pill">Confluence</span><span class="pill">Agile/Scrum</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-tag">03 · Career</div>
+      <h2 class="section-title reveal">Work <span>Experience</span></h2>
+      <div class="timeline">
+        <div class="tl-item current reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-top"><h3>Senior Software Engineer (QA)</h3><span class="role-badge">May 2023 — Present</span></div>
+            <div class="tl-org">ValueLabs Solutions LLP <span class="place">· Hyderabad, India (Remote)</span></div>
+            <ul>
+              <li>Performed mobile (Android/iOS) and web application testing across product releases, alongside RESTful API testing using Postman and RestAssured.</li>
+              <li>Automated web and mobile tests using Selenium and Appium with Java (Maven, TestNG) and a keyword-driven framework; implemented BDD using Cucumber and followed TDD practices.</li>
+              <li>Managed test cases and defects using Jira and Zephyr; maintained test artifacts and documentation in Confluence.</li>
+              <li>Supported performance testing and CI/CD pipeline integration for automated test execution.</li>
+              <li>Led application release activities as an individual contributor while driving Agile/Scrum ceremonies, test planning, and test strategy.</li>
+              <li>Built AI-integrated automation using Claude and Google Gemini, enhancing QA analysis and development speed; learned Python automation with PyTest.</li>
+              <li>Authored and maintained a knowledge-sharing handbook for team on-boarding and continuous learning.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-top"><h3>System Engineer</h3><span class="role-badge">Sep 2022 — Apr 2023</span></div>
+            <div class="tl-org">Tata Consultancy Services (TCS) <span class="place">· Bangalore, India (Hybrid)</span></div>
+            <ul>
+              <li>Performed database ETL testing using SQL scripting, along with web application testing and BDD testing using Cucumber.</li>
+              <li>Automated tests using Selenium (Java, Gradle, JUnit) and built ETL automation test suites; conducted manual and automated API testing using Postman and RestAssured.</li>
+              <li>Managed test cases and defects using Jira; maintained documentation in Confluence; led small project testing efforts as an individual contributor.</li>
+              <li>Participated in requirements analysis, Agile/Scrum activities, and early CI/CD and performance testing exposure.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-top"><h3>Software Developer</h3><span class="role-badge">Jul 2021 — Aug 2022</span></div>
+            <div class="tl-org">VHS Consulting India Pvt. Ltd. <span class="place">· 3rd-party payroll with TCS · Bangalore (Hybrid)</span></div>
+            <ul>
+              <li>Performed database ETL testing using SQL scripting, along with web application and BDD testing using Cucumber (Java, Gradle, JUnit).</li>
+              <li>Conducted manual and automated API testing using Postman and RestAssured; managed test cases and defects using Jira and Confluence.</li>
+              <li>Led small project testing efforts and contributed to requirements analysis and Agile/Scrum ceremonies.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-top"><h3>Business Analyst</h3><span class="role-badge">Jan 2019 — Mar 2021</span></div>
+            <div class="tl-org">Mapple Business Solutions <span class="place">· Ranchi, India (Hybrid)</span></div>
+            <ul>
+              <li>Processed student profiles for job placement opportunities and supported campaign marketing initiatives for prospective MBA students.</li>
+              <li>Performed manual testing for web applications and wrote SQL queries for database validation, building foundational knowledge in Software QA and Python programming.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-tag">04 · Case Studies</div>
+      <h2 class="section-title reveal">Key <span>Projects</span></h2>
+      <div class="proj-grid">
+        <div class="proj-card reveal">
+          <div class="proj-top"><h3>IRROPs – Pre-Travel</h3><span class="tag-domain air">Airlines</span></div>
+          <div class="proj-dur">ValueLabs · ~1 year</div>
+          <ul>
+            <li>Tested mobile app, .com web channel, and RESTful services for the Irregular Operations (IRROPs) system during flight disruptions.</li>
+            <li>Managed regression, sanity, integration, and sign-off suites (Java Hybrid/Keyword framework); contributed to AI-built automation and the Java→Python CI/CD transition.</li>
+            <li>Supported successful releases of IRROPs waitlist functionality, UI/UX redesign, and Japanese translation.</li>
+          </ul>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-top"><h3>Baggage Resolution – Pre-Travel</h3><span class="tag-domain air">Airlines</span></div>
+          <div class="proj-dur">ValueLabs · ~2.5 years</div>
+          <ul>
+            <li>Tested mobile app, .com web channel, and RESTful services for a baggage resolution system; led requirement analysis, scrum events, and defect triage under Agile.</li>
+            <li>Served as automation POC (Java Hybrid/Keyword framework); led AI-driven framework build and Java→Python CI/CD migration.</li>
+            <li>Supported successful production releases of a new claim type, UI/UX redesign, and Japanese/Spanish translations.</li>
+          </ul>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-top"><h3>Channel Experience – Mobile Next</h3><span class="tag-domain air">Airlines</span></div>
+          <div class="proj-dur">ValueLabs · ~1 year</div>
+          <ul>
+            <li>Tested mobile application and RESTful services for a redesigned channel home screen experience.</li>
+            <li>Maintained regression, sanity, integration, and sign-off suites (Java Hybrid/Keyword framework); helped build AI-assisted automation as part of the Java→Python CI/CD migration.</li>
+            <li>Supported successful releases of the home screen/Contextual Awareness (CA) card, Japanese translation, and channel home screen experience.</li>
+          </ul>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-top"><h3>Anti-Money Laundering (AML) – Customer Risk Rating</h3><span class="tag-domain bfsi">BFSI</span></div>
+          <div class="proj-dur">TCS / VHS Consulting · ~20 months</div>
+          <ul>
+            <li>Tested an Oracle web tool calculating customer risk ratings from enterprise agent, enterprise, and third-party API data, plus ETL validation from source to target tables across multiple countries.</li>
+            <li>Served as functional POC for the automation team (Java-BDD Cucumber framework); signed off on ETL implementation and Oracle web tool functionality across enterprise agent hierarchy for multiple countries.</li>
+            <li>Participated in the automation transition from Java to Python with cloud CI/CD integration.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPOS -->
+  <section id="repos">
+    <div class="wrap">
+      <div class="section-tag">05 · Open Source</div>
+      <h2 class="section-title reveal">GitHub <span>Portfolio</span></h2>
+      <div class="filter-bar reveal">
+        <button class="fbtn active" data-filter="all">All (7)</button>
+        <button class="fbtn" data-filter="public">Public</button>
+        <button class="fbtn" data-filter="private">Private</button>
+        <button class="fbtn" data-filter="java">Java</button>
+        <button class="fbtn" data-filter="python">Python</button>
+      </div>
+      <div class="repo-grid" id="repoGrid">
+
+        <div class="repo-card reveal" data-tags="public java">
+          <div class="repo-top"><h3>sdet-automation-utilities-java</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+          <p class="repo-desc">Reusable SDET utility library — the plumbing every automation suite needs across Web, Mobile, REST, DB, ETL &amp; Perf. Pure JDK, zero runtime/test dependencies.</p>
+          <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">93 tests</span><span class="m ci">● CI Green</span></div>
+          <div class="repo-foot">
+            <a href="https://github.com/VarunDevSinha/sdet-automation-utilities-java" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
+          </div>
+        </div>
+
+        <div class="repo-card reveal" data-tags="public python">
+          <div class="repo-top"><h3>sdet-automation-utilities-python</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+          <p class="repo-desc">Python companion utility library mirroring the Java edition — config, validation, waits, chaining, reporting, web/mobile/db/etl/api/perf helpers.</p>
+          <div class="repo-meta"><span class="m">Python 3.9+</span><span class="m">75 tests</span><span class="m ci">● CI Green</span></div>
+          <div class="repo-foot">
+            <a href="https://github.com/VarunDevSinha/sdet-automation-utilities-python" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
+          </div>
+        </div>
+
+        <div class="repo-card reveal" data-tags="public java">
+          <div class="repo-top"><h3>sdet-ci-engine-java</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+          <p class="repo-desc">A mini-Jenkins CI/CD pipeline engine built from scratch — pipeline-as-code, stage engine, live logs, build history, dashboard, cron + webhook triggers.</p>
+          <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">54 tests</span><span class="m ci">● CI Green</span></div>
+          <div class="repo-foot">
+            <a href="https://github.com/VarunDevSinha/sdet-ci-engine-java" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
+          </div>
+        </div>
+
+        <div class="repo-card reveal" data-tags="public python">
+          <div class="repo-top"><h3>sdet-ci-engine-python</h3><span class="badge pub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Public</span></div>
+          <p class="repo-desc">Python implementation of the same CI-engine spec as its Java sibling — one pipeline.yml, same build history &amp; dashboard, two runtimes.</p>
+          <div class="repo-meta"><span class="m">Python 3.9+</span><span class="m">49 tests</span><span class="m ci">● CI Green</span></div>
+          <div class="repo-foot">
+            <a href="https://github.com/VarunDevSinha/sdet-ci-engine-python" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Repo →</a>
+          </div>
+        </div>
+
+        <div class="repo-card is-private reveal" data-tags="private java">
+          <div class="repo-top"><h3>ai-leveraged-qa-toolkit</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
+          <p class="repo-desc">AI-Leveraged QA Toolkit — encapsulates the Claude/Gemini-assisted testing workflows behind Varun's AI-driven automation approach. Java 17, zero runtime deps.</p>
+          <div class="repo-meta"><span class="m">Java 17</span><span class="m">Zero-dep</span><span class="m">Case study</span></div>
+          <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
+        </div>
+
+        <div class="repo-card is-private reveal" data-tags="private java">
+          <div class="repo-top"><h3>java-fullstack-automation-framework</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
+          <p class="repo-desc">Config-driven, full-stack Java automation framework spanning Web, Mobile, REST, DB, ETL and Performance domains in one architecture.</p>
+          <div class="repo-meta"><span class="m">Java</span><span class="m">6 domains</span><span class="m">Case study</span></div>
+          <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
+        </div>
+
+        <div class="repo-card is-private reveal" data-tags="private python">
+          <div class="repo-top"><h3>python-fullstack-automation-framework</h3><span class="badge priv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private</span></div>
+          <p class="repo-desc">Python companion framework covering the same six automation domains — the Java→Python migration mirrored as a standalone showcase.</p>
+          <div class="repo-meta"><span class="m">Python</span><span class="m">6 domains</span><span class="m">Case study</span></div>
+          <div class="lock-note"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3H9z"/></svg>Private repository — reach out to discuss the code.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="wrap">
+      <div class="section-tag">06 · Background</div>
+      <h2 class="section-title reveal">Education</h2>
+      <div class="edu-grid">
+        <div class="edu-card reveal">
+          <b>Bachelor of Business Administration (BBA)</b>
+          <span>Birla Institute of Technology (BIT), Mesra, Ranchi</span>
+          <span class="yr">2016 — 2019</span>
+        </div>
+        <div class="edu-card reveal">
+          <b>12th — Commerce (CBSE)</b>
+          <span>Kendriya Vidyalaya, Barkakana, Ramgarh</span>
+          <span class="yr">2016</span>
+        </div>
+        <div class="edu-card reveal">
+          <b>10th (CBSE)</b>
+          <span>Kendriya Vidyalaya, Bhurkunda, Ramgarh</span>
+          <span class="yr">2014</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-wrap reveal">
+        <div class="section-tag" style="justify-content:center;">07 · Get in Touch</div>
+        <h2>Let's build something reliable, together.</h2>
+        <p>Recruiting for a role, or want to talk about a project? Tap a button below — it opens a ready-to-send draft on WhatsApp or Gmail. Just fill in your details and hit send.</p>
+        <div class="contact-actions">
+          <a href="#" id="waBtn" target="_blank" rel="noopener" class="btn btn-wa">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5c1.5.8 3.3 1.3 5.2 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.4 1 1-3.3-.2-.4C3.5 14.5 3 13.3 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+            Connect on WhatsApp
+          </a>
+          <a href="#" id="mailBtn" target="_blank" rel="noopener" class="btn btn-mail">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Connect via Gmail
+          </a>
+        </div>
+        <p class="contact-hint">Draft messages are pre-filled — nothing is sent automatically. Edit with your name and details before hitting send.</p>
+        <div class="social-row">
+          <a href="https://github.com/VarunDevSinha" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.61-3.37-1.21-3.37-1.21-.46-1.16-1.11-1.47-1.11-1.47-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.25-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+          <a href="https://linkedin.com/in/varun-dev-sinha" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg></a>
+          <a href="mailto:varundevsinha18@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Designed &amp; built by Varun Dev Sinha · <span class="mono">© <span id="yr"></span></span></div>
+  </div>
+</footer>
+
+<button class="toplink" id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15 12 9l-6 6"/></svg>
+</button>
+
+<script>
+(function(){
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---------- Contact links (built at runtime, safely encoded) ---------- */
+  var WA_NUMBER = "918292024321"; // +91 8292024321
+  var GMAIL_TO = "varundevsinha18@gmail.com";
+
+  var waMessage = "Hi Varun! 👋 I came across your SDET portfolio and I'd like to connect regarding a [project collaboration / job opportunity].\n\nA bit about me: [your name, company/role].\n\nLooking forward to chatting!";
+  var mailSubject = "Connecting re: Project / Opportunity — [Your Name]";
+  var mailBody = "Hi Varun,\n\nMy name is [Your Name] and I'm reaching out from [Your Company / Organization].\n\nI came across your SDET portfolio and would like to connect regarding [a potential project collaboration / a job opportunity].\n\n[Add a bit more detail about what you have in mind here.]\n\nWould you be open to a quick chat this week?\n\nBest regards,\n[Your Name]\n[Your Phone / LinkedIn]";
+
+  var waLink = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(waMessage);
+  var mailLink = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(GMAIL_TO) + "&su=" + encodeURIComponent(mailSubject) + "&body=" + encodeURIComponent(mailBody);
+
+  ["waBtn","heroWaBtn"].forEach(function(id){ var el=document.getElementById(id); if(el) el.href = waLink; });
+  ["mailBtn","heroMailBtn"].forEach(function(id){ var el=document.getElementById(id); if(el) el.href = mailLink; });
+
+  /* ---------- Mobile nav ---------- */
+  var burger = document.getElementById('burger');
+  var navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', function(){
+    burger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    document.body.classList.toggle('lock');
+  });
+  document.querySelectorAll('#navLinks a').forEach(function(a){
+    a.addEventListener('click', function(){
+      burger.classList.remove('open');
+      navLinks.classList.remove('open');
+      document.body.classList.remove('lock');
+    });
+  });
+
+  /* ---------- Header scroll state + scrollspy ---------- */
+  var header = document.getElementById('siteHeader');
+  var navA = document.querySelectorAll('#navLinks a');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+  function onScroll(){
+    header.classList.toggle('scrolled', window.scrollY > 20);
+    var pos = window.scrollY + 140;
+    var current = sections[0] && sections[0].id;
+    sections.forEach(function(s){ if(pos >= s.offsetTop) current = s.id; });
+    navA.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+    var toTop = document.getElementById('toTop');
+    toTop.classList.toggle('show', window.scrollY > 700);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  document.getElementById('toTop').addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.12});
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  /* ---------- Typing effect ---------- */
+  var phrases = [
+    "Full Stack SDET",
+    "Java & Python Test Automation",
+    "Selenium · Appium · RestAssured",
+    "CI/CD Pipeline Engineering",
+    "AI-Leveraged QA (Claude + Gemini)",
+    "ETL & Database Testing"
+  ];
+  var target = document.getElementById('typeTarget');
+  var pi = 0, ci = 0, deleting = false;
+  function type(){
+    var word = phrases[pi];
+    if(!deleting){
+      ci++;
+      target.textContent = word.slice(0, ci);
+      if(ci === word.length){ deleting = true; setTimeout(type, 1500); return; }
+    } else {
+      ci--;
+      target.textContent = word.slice(0, ci);
+      if(ci === 0){ deleting = false; pi = (pi+1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 35 : 65);
+  }
+  type();
+
+  /* ---------- Animated stat counters ---------- */
+  var counted = false;
+  var statEls = document.querySelectorAll('.stat b[data-count]');
+  var statIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !counted){
+        counted = true;
+        statEls.forEach(function(el){
+          var target = parseInt(el.getAttribute('data-count'), 10);
+          var suffix = el.getAttribute('data-suffix') || '';
+          var start = 0;
+          var dur = 1200;
+          var t0 = performance.now();
+          function step(t){
+            var p = Math.min((t - t0) / dur, 1);
+            var val = Math.floor(p * (target - start) + start);
+            el.textContent = val + suffix;
+            if(p < 1) requestAnimationFrame(step);
+            else el.textContent = target + suffix;
+          }
+          requestAnimationFrame(step);
+        });
+        statIo.disconnect();
+      }
+    });
+  }, {threshold:0.4});
+  if(statEls.length) statIo.observe(document.querySelector('.stat-row'));
+
+  /* ---------- Repo filter ---------- */
+  var fbtns = document.querySelectorAll('.fbtn');
+  var repoCards = document.querySelectorAll('#repoGrid .repo-card');
+  fbtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      fbtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.getAttribute('data-filter');
+      repoCards.forEach(function(card){
+        var tags = card.getAttribute('data-tags');
+        var show = (f === 'all') || tags.indexOf(f) !== -1;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
